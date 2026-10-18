@@ -1,0 +1,20 @@
+digraph G {
+graph [rankdir=LR, bgcolor="#071322", pad="0.40", nodesep="0.35", ranksep="0.55", splines=polyline, fontname="Helvetica", label="Enterprise Snowflake Analytics Platform\nModern ELT + Dimensional Modeling Architecture", labelloc=t, fontsize=23, fontcolor="#F3F7FF", labeljust=l];
+node [shape=box, style="rounded,filled", color="#3D5B77", fillcolor="#122338", fontcolor="#EAF2FF", fontname="Helvetica", fontsize=11, penwidth=1.4, margin="0.20,0.18"];
+edge [color="#36D6C4", penwidth=2.1, arrowsize=0.75];
+sources [label=<<FONT COLOR="#61E5D4"><B>DATA SOURCES</B></FONT><BR/><BR/>Retail orders + customers<BR/>SaaS / CSV / operational DBs>];
+ingest [label=<<FONT COLOR="#61E5D4"><B>INGESTION</B></FONT><BR/><BR/>Batch + incremental loads<BR/>Landing / raw staging>];
+warehouse [label=<<FONT COLOR="#61E5D4"><B>SNOWFLAKE RAW</B></FONT><BR/><BR/>Raw schemas<BR/>Ingestion metadata>];
+dbt [label=<<FONT COLOR="#61E5D4"><B>DBT TRANSFORMS</B></FONT><BR/><BR/>Staging → Intermediate<BR/>Incremental models<BR/>SCD Type 2 design>];
+marts [label=<<FONT COLOR="#61E5D4"><B>CURATED MARTS</B></FONT><BR/><BR/>Dimensional models<BR/>Customer + sales facts>];
+serve [label=<<FONT COLOR="#61E5D4"><B>BUSINESS INTELLIGENCE</B></FONT><BR/><BR/>Self-service dashboards<BR/>Revenue / customer KPIs>];
+sources -> ingest;
+ingest -> warehouse;
+warehouse -> dbt;
+dbt -> marts;
+marts -> serve;
+tests [label=<<FONT COLOR="#F4C975"><B>QUALITY &amp; GOVERNANCE</B></FONT><BR/><BR/>dbt tests + freshness<BR/>Lineage / RBAC / CI>, fillcolor="#20283B", color="#887653"];
+dbt -> tests [style=dashed, color="#F4C975", constraint=false, arrowhead=none];
+perf [label=<<FONT COLOR="#F4C975"><B>PERFORMANCE</B></FONT><BR/><BR/>Warehouse sizing<BR/>Clustering + cost controls>, fillcolor="#20283B", color="#887653"];
+marts -> perf [style=dashed, color="#F4C975", constraint=false, arrowhead=none];
+}
